@@ -15,11 +15,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path,include # Importa la función include de Django, necesaria para incluir otras rutas de la aplicación.
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path("",include("api.urls")),
-    path("accounts/", include("allauth.urls"))
+urlpatterns = [#Define las rutas de la aplicación
+    path('admin/', admin.site.urls),#Define la ruta de administración de Django
+    path("",include("api.urls")),#Incluye las rutas definidas en api/urls.py
+    path("accounts/", include("allauth.urls")) #Incluye las rutas de autenticación de Allauth
 
 ]
