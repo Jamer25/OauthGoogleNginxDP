@@ -20,8 +20,8 @@ def index(request):
     return render(request, 'index.html') #Renderiza la página principal index.html.
 # No realiza ninguna lógica, solo muestra la plantilla.
 
-def game(request):
-    return render(request, "game.html")
+def welcome(request):
+    return render(request, "welcome.html")
 
 
 
@@ -56,7 +56,7 @@ def login_view(request):
         if user is not None:
             login(request, user)
             messages.success(request, 'Login successful!')
-            return redirect('game')
+            return redirect('welcome')
         else:
             messages.error(request, 'Invalid credentials')
     return render(request, 'index.html')

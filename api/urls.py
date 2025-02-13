@@ -8,5 +8,5 @@ urlpatterns = [#Define las rutas de la aplicación
     path('forgot-password/', forgot_password_view, name='forgot_password'),#Define la ruta de olvido de contraseña, que llama a la vista forgot_password_view
     path('reset-password/<str:token>/', reset_password_view, name='reset_password'),#Define la ruta de restablecimiento de contraseña, que llama a la vista reset_password_view
     path('logout/', logout_view, name='logout'),#Define la ruta de cierre de sesión, que llama a la vista logout_view
-    path('game/', game, name="game" )#Define la ruta del juego, que llama a la vista game
+    path('welcome/', welcome, name="welcome" )#Define la ruta del juego, que llama a la vista welcome
 ]
