@@ -32,6 +32,12 @@ def signup_view(request):
         last_name = request.POST['last_name']
         email = request.POST['email']
         password = request.POST['password']
+
+         # 🔹 Verificar si el usuario ya existe
+        if CustomUser.objects.filter(username=email).exists():
+            messages.error(request, 'A user with this email already exists.')
+            return redirect('signup')  # Redirige de vuelta al formulario de registro
+        
         #Crea un nuevo usuario con estos datos:
         user = CustomUser.objects.create_user(
             username=email,
@@ -41,7 +47,8 @@ def signup_view(request):
             password=password,
         )
         user.save() #Guarda el usuario en la base de datos
-        login(request, user) #Inicia sesión con el nuevo usuario
+        user.backend = 'django.contrib.auth.backends.ModelBackend' 
+        login(request, user, backend=user.backend) #Inicia sesión con el nuevo usuario
         messages.success(request, 'Signup successful!')#Muestra un mensaje de éxito
         return redirect('index')  #Redirige al usuario a la página principal
     return render(request, 'index.html')
@@ -61,17 +68,25 @@ def login_view(request):
             messages.error(request, 'Invalid credentials')
     return render(request, 'index.html')
 
-def forgot_password_view(request): #Define la vista forgot_password_view para manejar el proceso de olvido de contraseña.
+
+def forgot_password_view(request):
     if request.method == 'POST':
         email = request.POST['email']
+        print(f"🔍 Buscando usuario con email: {email}")  # 🐞 Debugging
+
         user = CustomUser.objects.filter(email=email).first()
         
         if user:
             token = get_random_string(32)
+            print(f"✅ Token generado: {token}")  # 🐞 Debugging
+            
             reset_request = PasswordResetRequest.objects.create(user=user, email=email, token=token)
             reset_request.send_reset_email()
+
+            print(f"📧 Email enviado a {email}")  # 🐞 Debugging
             messages.success(request, 'Reset link sent to your email.')
         else:
+            print(f"❌ No se encontró usuario con email: {email}")  # 🐞 Debugging
             messages.error(request, 'Email not found.')
     
     return render(request, 'index.html')
