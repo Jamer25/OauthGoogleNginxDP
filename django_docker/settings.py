@@ -67,6 +67,10 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",  
 ]
 
+CSRF_TRUSTED_ORIGINS = ['http://localhost']
+CSRF_COOKIE_SECURE = False  # Solo poner True en producción con HTTPS
+CSRF_USE_SESSIONS = True  # Opcional, útil si usas sesiones en la API
+
 ROOT_URLCONF = 'django_docker.urls'
 
 TEMPLATES = [

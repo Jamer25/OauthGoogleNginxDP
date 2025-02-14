@@ -14,12 +14,19 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.http import JsonResponse
+from django.middleware.csrf import get_token
 from django.contrib import admin
 from django.urls import path,include # Importa la función include de Django, necesaria para incluir otras rutas de la aplicación.
 
+
+def get_csrf_token(request):
+    return JsonResponse({'csrfToken': get_token(request)})
+
 urlpatterns = [#Define las rutas de la aplicación
     path('admin/', admin.site.urls),#Define la ruta de administración de Django
-    path("",include("api.urls")),#Incluye las rutas definidas en api/urls.py
-    path("accounts/", include("allauth.urls")) #Incluye las rutas de autenticación de Allauth
+    path("api/",include("api.urls")),#Incluye las rutas definidas en api/urls.py
+    path("api/accounts/", include("allauth.urls")), #Incluye las rutas de autenticación de Allauth
+     path("api/accounts/csrf/", get_csrf_token, name="get_csrf_token"),
 
 ]

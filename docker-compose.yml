@@ -8,6 +8,9 @@ services:
       - "80:80"
     depends_on:
       - web
+    volumes:
+      - ./nginx/html:/usr/share/nginx/html  # 📌 Mapea el frontend
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf  # 📌 Mapea la configuración de Nginx
   db:
     image: postgres:15.10
     restart: always 
@@ -42,6 +45,7 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
+      - ./static:/code/static  # 📌 Asegura que los archivos estáticos estén disponibles
     ports:
       - "8000:8000"
     environment:
