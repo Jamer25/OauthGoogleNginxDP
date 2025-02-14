@@ -29,8 +29,12 @@ SECRET_KEY = 'django-insecure-0&fvyy!b5)g8$wvm$xkxedb23)^%4+xy*pzp0=^lqd4!*w(cjy
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-#ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'web']
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', 'web']
+#ALLOWED_HOSTS = ['*']
+
+#Le estás diciendo a Django que confíe en la cabecera X-Forwarded-Proto enviada por Nginx y que la interprete como la fuente real del protocolo usado por el usuario.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 
 # Application definition
