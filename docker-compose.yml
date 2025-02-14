@@ -48,5 +48,7 @@ services:
       - POSTGRES_NAME=my_database
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
+    env_file:
+      - .env  # Agregamos el archivo .env aquí
     depends_on:
       - db
