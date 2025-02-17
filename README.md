@@ -70,3 +70,74 @@ LOGIN_REDIRECT_URL = 'welcome'
 ACCOUNT_LOGOUT_REDIRECT_URL = 'login'
 
 
+
+# Usar el template de django admin
+crear una carpeta templates, dentro de esa carpeta otra llamada admin y luego dentro de eso 
+un archivo llamado login.html
+y si queremos agregar estilos una carpeta dentro de template llamada static y dentro de eso el .css
+
+login.html:
+    # Utiliza Django Template Language (DTL) para estructurar y renderizar dinámicamente el contenido.
+    {% extends "admin/base_site.html" %}# Extiende la plantilla base de Django admin.
+    #base_site.html :ya contiene la estructura general del sitio (HTML, CSS, JavaScript, encabezados, etc.).
+
+    {% block content %}#Django Admin tiene bloques predefinidos en base_site.html, como content, title, branding, etc.
+        <div class="login-container"># Contenedor div de inicio de sesión. Para agrupar visualmente el formulario de inicio de sesión.
+            <h2>Iniciar sesión ahora</h2>
+            <form method="post">
+                {% csrf_token %} # Para proteger el formulario de ataques CSRF.
+                {{ form.as_p }} # Renderiza el formulario de inicio de sesión.
+                <button type="submit">Acceder</button>
+            </form>
+        </div>
+    {% endblock %}
+
+ #   login.html igual que el por defecto:
+    
+   {% extends "admin/login.html" %}# Esto extiende el diseño original de Django
+
+
+
+{% block branding %}# Esto modifica el bloque branding del diseño original
+    <h1 style="color: #f8f8f8;">Django Administration</h1>
+{% endblock %}
+
+{% block content %}#  contiene todo el formulario de login.
+    {{ block.super }}  # Esto mantiene el diseño original y solo agrega cambios extra 
+{% endblock %}
+
+# Agregando botón google:
+Cuando agregas esta línea al inicio de login.html:
+
+html
+Copiar
+Editar
+{% load socialaccount %}
+le estás diciendo a Django que cargue los template tags de django-allauth.socialaccount, lo que permite usar:
+
+html
+Copiar
+Editar
+{% provider_login_url 'google' %}
+
+# Sería:
+{% extends "admin/login.html" %}
+
+
+{% load socialaccount %} 
+{% block branding %}
+    <h1 style="color: #f8f8f8;">Django Administration</h1>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }} 
+    <div class="media-options">
+        <a href="{% provider_login_url 'google' %}" class="field google">
+            <i class="fa-brands fa-google googleicon"></i>
+            <span>Login with Google</span>
+        </a>
+    </div>
+{% endblock %}
+
+
+

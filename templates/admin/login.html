@@ -1,0 +1,17 @@
+{% extends "admin/login.html" %}
+
+
+{% load socialaccount %} 
+{% block branding %}
+    <h1 style="color: #f8f8f8;">Django Administration</h1>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }} 
+    <div class="media-options">
+        <a href="{% provider_login_url 'google' %}" class="field google">
+            <i class="fa-brands fa-google googleicon"></i>
+            <span>Login with Google</span>
+        </a>
+    </div>
+{% endblock %}
